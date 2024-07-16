@@ -12,7 +12,7 @@ import "animate.css";
 // import LoginCoba from "./pages/LoginCoba.jsx";
 import ProductPage from "./pages/ProductPage.jsx";
 import Cart from "./pages/cart.jsx";
-import VerifyEmail from "./pages/VerifyEmail.jsx";
+
 import HistoryPage from "./pages/TransaksiPage.jsx";
 import TransaksiDetails from "./pages/transaksiDetails.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
@@ -65,10 +65,7 @@ const route = createBrowserRouter([
     element: <ProfilePage />,
     errorElement: <ErrorPage />,
   },
-  {
-    path: "/verify-email/:id",
-    element: <VerifyEmail />,
-  },
+
   {
     path: "/forgot-password",
     element: <ForgotPassword />,
