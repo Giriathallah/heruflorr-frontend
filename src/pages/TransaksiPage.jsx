@@ -8,22 +8,23 @@ import "react-toastify/dist/ReactToastify.css";
 const HistoryPage = () => {
   const [history, setHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchHistory = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/beli/show`,
+          `${import.meta.env.VITE_BACKEND_URL}/user/${userId}`,
           {
-            headers:{
-              Authorization:`Bearer ${token}`
-            }
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         // Sort history
-        const sortedHistory = response.data.sort((a, b) =>
+        const sortedHistory = response.data.histori.sort((a, b) =>
           a.created_at.localeCompare(b.status)
         );
         setHistory(sortedHistory);
@@ -48,9 +49,9 @@ const HistoryPage = () => {
         const response = await axios.delete(
           `${import.meta.env.VITE_BACKEND_URL}/beli/${id}`,
           {
-            headers:{
-              Authorization: `Bearer ${token}`
-            }
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         if (response.status === 200) {
