@@ -3,6 +3,7 @@ import axios from "axios";
 import NavbarComponent from "../components/NavbarComponent";
 import { fetchAlamat } from "../api/api";
 import PembayaranComponent from "../components/PembayaranComponent";
+import { useNavigate } from "react-router-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -24,6 +25,33 @@ const Cart = () => {
   const [selectedVillage, setSelectedVillage] = useState(null);
   const [showPayment, setShowPayment] = useState(false);
   const [transactionId, setTransactionId] = useState(null);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    if (!token || !userId) {
+      navigate("/login");
+      return;
+    }
+    const fetchUser = async () => {
+      try {
+        // eslint-disable-next-line no-unused-vars
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/user/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+      }
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];

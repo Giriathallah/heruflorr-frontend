@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavbarComponent from "../components/NavbarComponent";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,10 +8,15 @@ import "react-toastify/dist/ReactToastify.css";
 const HistoryPage = () => {
   const [history, setHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
+    if (!token || !userId) {
+      navigate("/login");
+      return;
+    }
     const fetchHistory = async () => {
       try {
         setIsLoading(true);

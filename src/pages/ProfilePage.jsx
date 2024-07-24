@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer, Bounce } from "react-toastify";
 import NavbarComponent from "../components/NavbarComponent";
@@ -14,10 +15,15 @@ const ProfilePage = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
+    if (!token || !userId) {
+      navigate("/login");
+      return;
+    }
     const fetchUserId = async () => {
       try {
         const response = await axios.get(
@@ -31,6 +37,9 @@ const ProfilePage = () => {
         setDataUser(response.data);
       } catch (error) {
         console.error("Error fetching user details:", error);
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        localStorage.removeItem("cart");
       }
     };
 

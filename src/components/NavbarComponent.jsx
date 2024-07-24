@@ -11,8 +11,34 @@ const NavbarComponent = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
+  const [isAuth, setIsAuth] = useState(false);
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        // eslint-disable-next-line no-unused-vars
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/user/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setIsAuth(true);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        localStorage.removeItem("cart");
+      }
+    };
+
+    fetchUserId();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -105,7 +131,7 @@ const NavbarComponent = () => {
                 </Link>
               )}
             </li>
-            {token && (
+            {isAuth && (
               <li>
                 <div className="relative">
                   <button

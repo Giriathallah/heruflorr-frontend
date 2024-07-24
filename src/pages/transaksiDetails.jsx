@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const TransaksiDetails = () => {
   const { id } = useParams();
   const [details, setDetails] = useState(null);
   const [invoiceImage, setInvoiceImage] = useState(null);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
+    if (!token || !userId) {
+      navigate("/login");
+      return;
+    }
     const fetchDetails = async () => {
       setIsLoading(true);
       try {

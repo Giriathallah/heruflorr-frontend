@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import image from "../assets/home.png";
 import "animate.css";
-import wa from "../../public/whatsapp.png";
+import wa from "../assets/whatsapp.png";
 
 const DefaultComponent = () => {
   const [user, setUser] = useState(null);
