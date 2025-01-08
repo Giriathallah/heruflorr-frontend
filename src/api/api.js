@@ -32,7 +32,7 @@ export const GetProductId = async (getId) => {
 export const fetchImages = async (fileName) => {
   try {
     const response = await axios.get(
-      `https://heruflower-ec2360bb7ee1.herokuapp.com/api/images/temp/${fileName}`,
+      `https://heruflorr-100f53cbcb4b.herokuapp.com/api/images/temp/${fileName}`,
       {
         responseType: "arraybuffer",
       }
